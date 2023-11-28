@@ -269,23 +269,23 @@
 
 <div class="row">
     <div class="col">
-    @if (grid.State == GameState.NotStarted)
-    {
-        <button @onclick="RunGame" class="btn btn-primary">New Game</button>
-    }
+        @if (grid.State == GameState.NotStarted)
+        {
+            <button @onclick="RunGame" class="btn btn-primary">New Game</button>
+        }
 
-    @if (grid.State == GameState.GameOver)
-    {
-        <button @onclick="NewGame" class="btn btn-primary">New Game</button>
-    }
+        @if (grid.State == GameState.GameOver)
+        {
+            <button @onclick="NewGame" class="btn btn-primary">New Game</button>
+        }
 
-    @if (grid.State == GameState.Playing)
-    {
-        <label for="playAudio">
-            <input id="playAudio" type="checkbox" @bind="playAudio" disabled />
-            Play Music
-        </label>
-    }
+        @if (grid.State == GameState.Playing)
+        {
+            <label for="playAudio">
+                <input id="playAudio" type="checkbox" @bind="playAudio" disabled />
+                Play Music
+            </label>
+        }
     </div>
 </div>
 
@@ -305,11 +305,10 @@
                 </div>
             }
         </div>
-            <ButtonControl 
-                LeftButtonMethod="() => {currentTetromino.MoveLeft(); StateHasChanged();}"
-                UpButtonMethod="() => { currentTetromino.Rotate(); StateHasChanged(); }"
-                DownButtonMethod="() => { MoveDown(); StateHasChanged(); }"
-                RightButtonMethod="() => {currentTetromino.MoveRight(); StateHasChanged();}"></ButtonControl>
+        <ButtonControl LeftButtonMethod="() => {currentTetromino.MoveLeft(); StateHasChanged();}"
+                       UpButtonMethod="() => { currentTetromino.Rotate(); StateHasChanged(); }"
+                       DownButtonMethod="() => { MoveDown(); StateHasChanged(); }"
+                       RightButtonMethod="() => {currentTetromino.MoveRight(); StateHasChanged();}"></ButtonControl>
     </div>
 
     <div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
