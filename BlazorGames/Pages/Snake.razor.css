@@ -1,0 +1,12 @@
+﻿.gameovermessage {
+    margin-bottom: 1rem;
+}
+
+.controls {
+    margin-top: 1rem;
+}
+
+    .controls button {
+        margin-right: .5rem;
+        margin-bottom: .5rem;
+    }

@@ -1,0 +1,223 @@
+﻿﻿
+@page "/snake"
+@using LogicLayer.Snake.Enum
+
+@inject IJSRuntime _jsRuntime;
+
+<PageTitle>Snake</PageTitle>
+
+<h3>Snake</h3>
+
+@code
+{
+    readonly Random random = new Random();
+    int Width = 15;
+    int Height = 15;
+    bool GameOver = false;
+    Direction CurrentDirection;
+
+    protected ElementReference gameBoardDiv;
+
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Reset();
+        }
+    }
+
+    (int I, int J)? _snakeHead;
+    (int I, int J) SnakeHead
+    {
+        get
+        {
+            if (_snakeHead is null)
+            {
+                Reset();
+            }
+            return _snakeHead.Value;
+        }
+    }
+
+    Queue<(int I, int J)> _snakeQueue;
+    Queue<(int I, int J)> SnakeQueue
+    {
+        get
+        {
+            if (_snakeQueue is null)
+            {
+                Reset();
+            }
+            return _snakeQueue;
+        }
+    }
+
+    Tile[,] _board;
+    Tile[,] Board
+    {
+        get
+        {
+            if (_board is null)
+            {
+                Reset();
+            }
+            return _board;
+        }
+    }
+
+    System.Timers.Timer _timer;
+    System.Timers.Timer Timer
+    {
+        get
+        {
+            if (_timer is null)
+            {
+                Reset();
+            }
+            return _timer;
+        }
+    }
+
+    async Task Reset()
+    {
+        if (_timer is not null)
+        {
+            _timer.Enabled = false;
+        }
+        _snakeQueue = new Queue<(int I, int J)>();
+        _snakeHead = (Width / 2, Height / 2);
+        _snakeQueue.Enqueue(SnakeHead);
+        _board = new Tile[Width, Height];
+        _board[SnakeHead.I, SnakeHead.J] = Tile.Snake;
+        PositionFood(_board);
+        GameOver = false;
+        _timer = new System.Timers.Timer();
+        _timer.Interval = 300;
+        _timer.Elapsed += (_, _) => { Update(); };
+        _timer.Enabled = false;
+
+        await _jsRuntime.InvokeVoidAsync("SetFocusToElement", gameBoardDiv);
+
+        StateHasChanged();
+    }
+
+    void OnKeyDown(KeyboardEventArgs e)
+    {
+        switch (e.Key)
+        {
+            case "ArrowLeft": CurrentDirection = Direction.Left; break;
+            case "ArrowRight": CurrentDirection = Direction.Right; break;
+            case "ArrowUp": CurrentDirection = Direction.Up; break;
+            case "ArrowDown": CurrentDirection = Direction.Down; break;
+            default: return;
+        }
+        Timer.Enabled = !GameOver && true;
+    }
+
+    void PositionFood(Tile[,] board)
+    {
+        List<(int X, int Y)> possibleCoordinates = new List<(int X, int Y)>();
+        for (int i = 0; i < board.GetLength(0); i++)
+        {
+            for (int j = 0; j < board.GetLength(1); j++)
+            {
+                if (board[i, j] == Tile.Open)
+                {
+                    possibleCoordinates.Add((i, j));
+                }
+            }
+        }
+        int index = random.Next(possibleCoordinates.Count);
+        (int X, int Y) = possibleCoordinates[index];
+        board[X, Y] = Tile.Food;
+    }
+
+    void Update()
+    {
+        Tile[,] board = Board;
+        Queue<(int, int)> snakeQueue = SnakeQueue;
+        Direction currentDirection = CurrentDirection;
+        if (GameOver || !Timer.Enabled)
+        {
+            Timer.Enabled = false;
+            return;
+        }
+        (int I, int J) head = SnakeHead;
+        (int I, int J) next = CurrentDirection switch
+        {
+            Direction.Left => (head.I - 1, head.J),
+            Direction.Right => (head.I + 1, head.J),
+            Direction.Up => (head.I, head.J - 1),
+            Direction.Down => (head.I, head.J + 1),
+            _ => throw new NotImplementedException(),
+        };
+        _snakeHead = next;
+        if (next.J < 0 ||
+            next.J > Board.GetLength(1) - 1 ||
+            next.I < 0 ||
+            next.I > Board.GetLength(0) - 1)
+        {
+            GameOver = true;
+            Timer.Enabled = false;
+        }
+        else if (Board[next.I, next.J] is Tile.Food)
+        {
+            PositionFood(Board);
+            SnakeQueue.Enqueue(next);
+            Board[next.I, next.J] = Tile.Snake;
+        }
+        else
+        {
+            (int I, int J) tail = SnakeQueue.Dequeue();
+            Board[tail.I, tail.J] = Tile.Open;
+            if (Board[next.I, next.J] is Tile.Snake)
+            {
+                GameOver = true;
+                Timer.Enabled = false;
+            }
+            else
+            {
+                SnakeQueue.Enqueue(next);
+                Board[next.I, next.J] = Tile.Snake;
+            }
+        }
+        StateHasChanged();
+    }
+}
+
+<div class="row">
+    <div class="col">
+        <button class="btn btn-primary" @onclick="Reset">New Game</button>
+    </div>
+</div>
+<div class="row">
+    <div @onkeydown="@OnKeyDown" tabindex="0" @ref="gameBoardDiv">
+        <svg width="60vmin" height="60vmin" viewBox="0 0 @Board.GetLength(0) @Board.GetLength(1)" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+            @for (int i = 0; i < Board.GetLength(0); i++)
+            {
+                @for (int j = 0; j < Board.GetLength(1); j++)
+                {
+                    <rect fill="@(Board[i, j] is Tile.Snake ? "#008080" : Board[i, j] is Tile.Food ? "#daa520" : "#24292e")" stroke="#24292e" stroke-width="0" width=".95" height=".95" x="@(i + .025)" y="@(j + .025)" />
+                }
+            }
+        </svg>
+    </div>
+    <div class="row gameovermessage" style="display:@(GameOver ? "block" : "none")">
+        Game Over!
+    </div>
+</div>
+
+<div class="row">
+    <div class="controls">
+        <button class="btn btn-primary" style="width:40px;" @onclick="() => { CurrentDirection = Direction.Left; Timer.Enabled = !GameOver && true; }">←</button>
+        <button class="btn btn-primary" style="width:40px;" @onclick="() => { CurrentDirection = Direction.Up; Timer.Enabled = !GameOver && true; }">↑</button>
+        <button class="btn btn-primary" style="width:40px;" @onclick="() => { CurrentDirection = Direction.Down; Timer.Enabled = !GameOver && true; }">↓</button>
+        <button class="btn btn-primary" style="width:40px;" @onclick="() => { CurrentDirection = Direction.Right; Timer.Enabled = !GameOver && true; }">→</button>
+    </div>
+</div>
+
+<div class="alert alert-dismissible alert-secondary">
+    <strong>Rules:</strong>
+    Collect as many yellow tiles as you can without running into a wall or yourself. To start, press any of the arrow keys.
+    Keyboard inputs (←, →, ↑, ↓) are supported if you <i>click on the board</i>.
+</div>

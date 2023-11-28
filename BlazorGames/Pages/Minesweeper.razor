@@ -1,0 +1,75 @@
+﻿@page "/minesweeper"
+@using LogicLayer.MineSweeper
+@using Towel
+
+<PageTitle>Mine Sweeper</PageTitle>
+
+<h3>Mine Sweeper</h3>
+
+@code {
+    Game game = new Game();
+    Level level = new Level();
+
+    string GridColumns => "auto ".Repeat(game.Width);
+    Cell[,] _board;
+    Cell[,] Board => _board ?? (_board = game.GenerateBoard());
+    bool Win => game.WinCheck(_board);
+
+    string selectedLevel = "Beginner";
+    Level? selLevel => level.AllLevels().ToList().Where(l => l.LevelName == selectedLevel).FirstOrDefault();
+    int selLevelWidth => selLevel is null ? 10 : selLevel.Width;
+    int selLevelHeight => selLevel is null ? 10 : selLevel.Height;
+}
+
+<div class="row">
+    <select @bind="selectedLevel">
+        @foreach (var lvl in level.AllLevels().ToList())
+        {
+            <option value="@lvl.LevelName">@lvl.LevelName</option>
+        }
+    </select>
+
+    <button class="btn btn-primary" @onclick="() => { _board = game.GenerateBoard(selLevelWidth, selLevelHeight); StateHasChanged(); }">New Game</button>
+</div>
+
+<div Style="padding-top:10px" class="row">
+    <div class="board">
+        @foreach (int i in Enumerable.Range(0, Board.GetLength(0)))
+        {
+            @foreach (int j in Enumerable.Range(0, Board.GetLength(1)))
+            {
+                Cell cell = Board[i, j];
+                <button class="cell @cell.Mine @cell.Safe @cell.Danger" @onclick="() => {
+                    game.ClickCell(i, j, _board);
+                    StateHasChanged();
+                }">
+                    @cell.Display
+                </button>
+            }
+        }
+    </div>
+    @if (Win)
+    {
+        <div class="row winmessage" style="display:block">
+            You Win! Press "New Game" to generate a new puzzle.
+        </div>
+    }
+</div>
+
+<div class="alert alert-dismissible alert-secondary">
+    <p><strong style="font-weight:bold">How To Play</strong>: Reveal tiles by clicking them, but be careful not to reveal a bomb. Reveal all the non-bomb tiles and you win. The number on each tile is the number of bombs that are adjacent to it (including diaganols).</p>
+</div>
+
+<style>
+    .board {
+        display: grid;
+        grid-template-columns: @GridColumns;
+        background-color: #333;
+        width: auto;
+        height: auto;
+        column-gap: .25rem;
+        row-gap: .25rem;
+        padding: .5rem;
+        float: left;
+    }
+</style>

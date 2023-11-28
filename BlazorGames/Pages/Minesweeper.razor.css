@@ -1,0 +1,25 @@
+﻿.cell {
+    background-color: #999;
+    font-size: 1rem;
+    text-align: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    outline: none !important;
+    border: none;
+}
+
+    .cell.danger {
+        background-color: #ccc;
+    }
+
+    .cell.safe {
+        background-color: #fff;
+    }
+
+    .cell.mine {
+        background-color: darkred;
+    }
+
+.btn-primary {
+    margin-top: .5rem;
+}
