@@ -1,6 +1,7 @@
 ﻿@page "/minesweeper"
 @using LogicLayer.MineSweeper
 @using Towel
+@using BlazorGames.Partials._Shared
 
 <PageTitle>Mine Sweeper</PageTitle>
 
@@ -62,9 +63,7 @@
     }
 </div>
 
-<div class="alert alert-dismissible alert-secondary">
-    <p><strong style="font-weight:bold">How To Play</strong>: Reveal tiles by clicking them, but be careful not to reveal a bomb. Reveal all the non-bomb tiles and you win. The number on each tile is the number of bombs that are adjacent to it (including diaganols).</p>
-</div>
+<HowToPlay HowToPlayMessage="Reveal tiles by clicking them, but be careful not to reveal a bomb. Reveal all the non-bomb tiles and you win. The number on each tile is the number of bombs that are adjacent to it (including diaganols)."></HowToPlay>
 
 <style>
     .board {
