@@ -22,14 +22,20 @@
 }
 
 <div class="row">
-    <select @bind="selectedLevel">
-        @foreach (var lvl in level.AllLevels().ToList())
-        {
-            <option value="@lvl.LevelName">@lvl.LevelName</option>
-        }
-    </select>
+    <div class="col">
+        <select @bind="selectedLevel">
+            @foreach (var lvl in level.AllLevels().ToList())
+            {
+                <option value="@lvl.LevelName">@lvl.LevelName</option>
+            }
+        </select>
+    </div>
+</div>
 
-    <button class="btn btn-primary" @onclick="() => { _board = game.GenerateBoard(selLevelWidth, selLevelHeight); StateHasChanged(); }">New Game</button>
+<div class="row">
+    <div class="col">
+        <button class="btn btn-primary" @onclick="() => { _board = game.GenerateBoard(selLevelWidth, selLevelHeight); StateHasChanged(); }">New Game</button>
+    </div>
 </div>
 
 <div Style="padding-top:10px" class="row">
