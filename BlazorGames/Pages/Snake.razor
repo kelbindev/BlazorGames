@@ -1,6 +1,7 @@
 ﻿﻿
 @page "/snake"
 @using LogicLayer.Snake.Enum
+@using BlazorGames.Partials._Shared
 
 @inject IJSRuntime _jsRuntime;
 
@@ -208,12 +209,10 @@
 </div>
 
 <div class="row">
-    <div class="controls">
-        <button class="btn btn-primary" style="width:40px;" @onclick="() => { CurrentDirection = Direction.Left; Timer.Enabled = !GameOver && true; }">←</button>
-        <button class="btn btn-primary" style="width:40px;" @onclick="() => { CurrentDirection = Direction.Up; Timer.Enabled = !GameOver && true; }">↑</button>
-        <button class="btn btn-primary" style="width:40px;" @onclick="() => { CurrentDirection = Direction.Down; Timer.Enabled = !GameOver && true; }">↓</button>
-        <button class="btn btn-primary" style="width:40px;" @onclick="() => { CurrentDirection = Direction.Right; Timer.Enabled = !GameOver && true; }">→</button>
-    </div>
+    <ButtonControl LeftButtonMethod="() => { CurrentDirection = Direction.Left; Timer.Enabled = !GameOver && true; }"
+                   UpButtonMethod="() => { CurrentDirection = Direction.Up; Timer.Enabled = !GameOver && true; }"
+                   DownButtonMethod="() => {  CurrentDirection = Direction.Down; Timer.Enabled = !GameOver && true; }"
+                   RightButtonMethod="() => {CurrentDirection = Direction.Right; Timer.Enabled = !GameOver && true; }"></ButtonControl>
 </div>
 
 <div class="alert alert-dismissible alert-secondary">

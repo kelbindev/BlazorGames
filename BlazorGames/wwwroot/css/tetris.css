@@ -114,10 +114,6 @@
     -moz-animation-duration: 1s;
 }
 
-.tetris-controls {
-    padding-top: 10px;
-}
-
 @keyframes fadeOut {
     0% {
         background-color: white

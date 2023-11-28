@@ -1,0 +1,49 @@
+﻿<div class="controls">
+    <button class="btn btn-primary" style="width:40px;" @onclick="InvokeLeftButtonMethod">←</button>
+    <button class="btn btn-primary" style="width:40px;" @onclick="InvokeUpButtonMethod">↑</button>
+    <button class="btn btn-primary" style="width:40px;" @onclick="InvokeDownButtonMethod">↓</button>
+    <button class="btn btn-primary" style="width:40px;" @onclick="InvokeRightButtonMethod">→</button>
+</div>
+
+@code {
+    [Parameter]
+    public Action LeftButtonMethod { get; set; }
+    [Parameter]
+    public Action UpButtonMethod { get; set; }
+    [Parameter]
+    public Action DownButtonMethod { get; set; }
+    [Parameter]
+    public Action RightButtonMethod { get; set; }
+
+    private void InvokeLeftButtonMethod()
+    {
+        LeftButtonMethod?.Invoke();
+    }
+
+    private void InvokeUpButtonMethod()
+    {
+        UpButtonMethod?.Invoke();
+    }
+
+    private void InvokeDownButtonMethod()
+    {
+        DownButtonMethod?.Invoke();
+    }
+
+    private void InvokeRightButtonMethod()
+    {
+        RightButtonMethod?.Invoke();
+    }
+}
+
+<style>
+    .controls {
+        margin-top: 1rem;
+    }
+
+        .controls button {
+            margin-right: .5rem;
+            margin-bottom: .5rem;
+        }
+
+</style>

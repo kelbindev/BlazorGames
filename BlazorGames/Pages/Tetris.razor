@@ -3,6 +3,7 @@
 @using LogicLayer.Tetris.Enum
 @using LogicLayer.Tetris.Tetrominos
 @using BlazorGames.Partials.Tetris
+@using BlazorGames.Partials._Shared
 
 @inject IJSRuntime _jsRuntime;
 
@@ -304,12 +305,11 @@
                 </div>
             }
         </div>
-        <div class="tetris-controls">
-            <button class="btn btn-primary" style="width:40px;" @onclick="() => { currentTetromino.MoveLeft(); StateHasChanged(); }">←</button>
-            <button class="btn btn-primary" style="width:40px;" @onclick="() => { currentTetromino.Rotate(); StateHasChanged(); }">↑</button>
-            <button class="btn btn-primary" style="width:40px;" @onclick="() => { MoveDown(); StateHasChanged(); }">↓</button>
-            <button class="btn btn-primary" style="width:40px;" @onclick="() => { currentTetromino.MoveRight(); StateHasChanged(); }">→</button>
-        </div>
+            <ButtonControl 
+                LeftButtonMethod="() => {currentTetromino.MoveLeft(); StateHasChanged();}"
+                UpButtonMethod="() => { currentTetromino.Rotate(); StateHasChanged(); }"
+                DownButtonMethod="() => { MoveDown(); StateHasChanged(); }"
+                RightButtonMethod="() => {currentTetromino.MoveRight(); StateHasChanged();}"></ButtonControl>
     </div>
 
     <div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
