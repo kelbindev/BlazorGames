@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorGames", "BlazorGames\BlazorGames.csproj", "{DAA50835-F439-485B-A70D-765BF28C69A6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicLayer", "..\KbBlazorGames\LogicLayer\LogicLayer.csproj", "{3F161E1F-D7E5-41EC-A4C3-BA4C7EF77759}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicLayer", "LogicLayer\LogicLayer.csproj", "{5A24640E-F3D6-4DB2-946E-61DC8E8B8B50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{DAA50835-F439-485B-A70D-765BF28C69A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAA50835-F439-485B-A70D-765BF28C69A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAA50835-F439-485B-A70D-765BF28C69A6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F161E1F-D7E5-41EC-A4C3-BA4C7EF77759}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F161E1F-D7E5-41EC-A4C3-BA4C7EF77759}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F161E1F-D7E5-41EC-A4C3-BA4C7EF77759}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F161E1F-D7E5-41EC-A4C3-BA4C7EF77759}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A24640E-F3D6-4DB2-946E-61DC8E8B8B50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A24640E-F3D6-4DB2-946E-61DC8E8B8B50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A24640E-F3D6-4DB2-946E-61DC8E8B8B50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A24640E-F3D6-4DB2-946E-61DC8E8B8B50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
