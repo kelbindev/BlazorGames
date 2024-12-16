@@ -1,5 +1,6 @@
 window.SetFocusToElement = (element) => {
-    element.focus();
+    if (element)
+        element.focus();
 };
 
 window.PlayAudio = (elementName) => {

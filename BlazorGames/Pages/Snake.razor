@@ -97,7 +97,8 @@
         _timer.Elapsed += (_, _) => { Update(); };
         _timer.Enabled = false;
 
-        await _jsRuntime.InvokeVoidAsync("SetFocusToElement", gameBoardDiv);
+        if (gameBoardDiv.Id is not null)
+            await _jsRuntime.InvokeVoidAsync("SetFocusToElement", gameBoardDiv);
 
         StateHasChanged();
     }
